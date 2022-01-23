@@ -1,0 +1,15 @@
+{
+  "name": "cljs-threejs-playground",
+  "version": "0.0.1",
+  "description": "Playing with threejs and cljs",
+  "scripts": {
+    "watch": "shadow-cljs watch main",
+    "release": "shadow-cljs release main"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.16.12"
+  },
+  "dependencies": {
+    "three": "^0.136.0"
+  }
+}
