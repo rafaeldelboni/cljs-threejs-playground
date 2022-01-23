@@ -1,6 +1,6 @@
 # cljs-threejs-playground
 
-Playing with threejs and cljs
+Playing with threejs and cljs [online demo](https://rafael.delboni.cc/cljs-threejs-playground/)
 
 ## Current Studies
 
