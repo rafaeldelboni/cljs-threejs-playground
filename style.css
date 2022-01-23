@@ -5,6 +5,21 @@ body {
   color: #fff;
   font-family: "JetBrains Mono", Helvetica Neue, Helvetica, Arial, sans-serif;
 }
+a:link {
+  color: #242429;
+}
+a:visited {
+  color: #242429;
+}
+a:hover {
+  color: #242429;
+}
+a:active {
+  color: #242429;
+}
+sub {
+  padding-top: 0;
+}
 main {
   position: relative;
   height: 100vh;
