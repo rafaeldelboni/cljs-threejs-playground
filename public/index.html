@@ -6,21 +6,27 @@
   <title>cljs-threejs-playground</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
-    #three-canvas {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-    }
-  </style>
+  <link href="./favicon.png" rel="icon" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;500&amp;display=swap"
+    rel="stylesheet" />
+  <link href="./style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-  <canvas id="three-canvas"></canvas>
+  <nav class="menu" tabindex="0">
+    <div class="smartphone-menu-trigger"></div>
+    <header class="header">
+      <h2>cljs & threejs</h2>
+    </header>
+    <ul>
+      <li tabindex="0" id="load-0"><span>Load GLTF</span></li>
+    </ul>
+  </nav>
+
+  <main>
+    <canvas class="canvas" id="three-canvas"></canvas>
+  </main>
+
   <script src="./js/main.js"></script>
 </body>
 
