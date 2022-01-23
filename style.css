@@ -1,0 +1,102 @@
+html,
+body {
+  margin: 0;
+  background: #fff;
+  color: #fff;
+  font-family: "JetBrains Mono", Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+main {
+  position: relative;
+  height: 100vh;
+  padding-left: 220px;
+}
+main .canvas {
+  height: 100%;
+  width: 100%;
+}
+.menu {
+  background: #787b8b;
+  height: 100vh;
+  width: 220px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  outline: none;
+}
+.menu header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5em 0.5em;
+  text-align: center;
+}
+.menu header h2 {
+  font-weight: normal;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+.menu ul {
+  list-style: none;
+  padding: 0.5em 0;
+  margin: 0;
+}
+.menu ul li {
+  padding: 0.5em 1em 0.5em 3em;
+  font-size: 0.95em;
+  font-weight: regular;
+  background-repeat: no-repeat;
+  background-position: left 15px center;
+  background-size: auto 20px;
+  transition: all 0.15s linear;
+  cursor: pointer;
+}
+.menu ul li:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.menu ul li:focus {
+  outline: none;
+}
+@media screen and (max-width: 400px) {
+  main {
+    padding-left: 0;
+  }
+  .menu {
+    width: 230px;
+    box-shadow: 0 0 0 100em rgba(0, 0, 0, 0);
+    transform: translate3d(-230px, 0, 0);
+    transition: all 0.3s ease-in-out;
+  }
+  .menu .smartphone-menu-trigger {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 100%;
+    background: #787b8b;
+  }
+  .menu .smartphone-menu-trigger:before,
+  .menu .smartphone-menu-trigger:after {
+    content: '';
+    width: 50%;
+    height: 2px;
+    background: #fff;
+    border-radius: 10px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+  .menu .smartphone-menu-trigger:after {
+    top: 55%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+  .menu ul li {
+    padding: 1em 1em 1em 3em;
+    font-size: 1.2em;
+  }
+  .menu:focus {
+    transform: translate3d(0, 0, 0);
+    box-shadow: 0 0 0 100em rgba(0, 0, 0, 0.6);
+  }
+  .menu:focus .smartphone-menu-trigger {
+    pointer-events: none;
+  }
+}
