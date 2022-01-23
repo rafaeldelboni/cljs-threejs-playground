@@ -20,23 +20,29 @@
      :controls controls
      :scene scene}))
 
-(defn resize-canvas [camera renderer]
+(defn resize-canvas [{:keys [camera renderer]}]
+  (let [canvas (. renderer -domElement)
+        client-width (. canvas -clientWidth)
+        client-height (. canvas -clientHeight)
+        camera-projection (/ client-width client-height)]
+    (.setSize renderer client-width client-height false)
+    (doto ^three/PerspectiveCamera camera
+      (j/assoc! :aspect camera-projection)
+      .updateProjectionMatrix)))
+
+(defn resize-canvas-when-needed [{:keys [renderer] :as three-data}]
   (let [canvas (. renderer -domElement)
         client-width (. canvas -clientWidth)
         client-height (. canvas -clientHeight)
         width (. canvas -width)
         height (. canvas -height)
-        camera-projection (/ client-width client-height)
         need-resize (or (not= client-width width) (not= client-height height))]
     (when need-resize
-      (.setSize renderer client-width client-height false)
-      (doto ^three/PerspectiveCamera camera
-        (j/assoc! :aspect camera-projection)
-        .updateProjectionMatrix))))
+      (resize-canvas three-data))))
 
 (defn render-fn [{:keys [camera renderer scene] :as three-data}]
   (.requestAnimationFrame js/window #(render-fn three-data))
-  (resize-canvas camera renderer)
+  (resize-canvas-when-needed three-data)
   (.render renderer scene camera))
 
 (defn ->add-plane-mesh [scene]
@@ -111,4 +117,5 @@
         ->add-hemisphere-light
         ->add-directional-light)
     (load-gltf-model three-data)
+    (resize-canvas three-data)
     (render-fn three-data)))
