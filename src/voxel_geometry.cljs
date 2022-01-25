@@ -126,14 +126,21 @@
        (reduce (fn [acc [x y z]] (set-voxel acc x y z (rand-int-min-max 1 17)))
                voxel-world)))
 
-; TODO: slow af
+(defn eager-flatten [l]
+  (loop [l1 l, l2 `()]
+    (cond
+      (sequential? (first l1)) (recur (concat (first l1) (rest l1)) l2)
+      (empty? l1) (reverse l2)
+      :else (recur (rest l1) (cons (first l1) l2)))))
+
+; TODO: slow
 (defn calculate-geometry-data-for-cell
   [{:keys [cell-size faces tile-size tile-texture-width tile-texture-height] :as world}
    cell-x cell-y cell-z]
   (let [start-x (* cell-x cell-size)
         start-y (* cell-y cell-size)
         start-z (* cell-z cell-size)]
-    (flatten
+    (eager-flatten
      (for [y (range cell-size)
            z (range cell-size)
            x (range cell-size)
@@ -162,12 +169,12 @@
                       (or (nil? neighbor)
                           (zero? neighbor)))))))))
 
-; TODO: slow af
+; TODO: slow
 (defn world->geometry-attributes
   [world]
-  (let [normals (->> world (map :normals) flatten)
-        positions (->> world (map :corners) flatten (map :position) flatten)
-        uvs (->> world (map :corners) flatten (map :uv) flatten)
+  (let [normals (->> world (map :normals) eager-flatten)
+        positions (->> world (map :corners) eager-flatten (map :position) eager-flatten)
+        uvs (->> world (map :corners) eager-flatten (map :uv) eager-flatten)
         num-indices (-> positions count (/ 3))
         indices (->> (range 0 num-indices 4)
                      (map (fn [ndx]
@@ -177,7 +184,7 @@
                              (+ ndx 2)
                              (+ ndx 1)
                              (+ ndx 3)]))
-                     flatten)]
+                     eager-flatten)]
     {:normals normals
      :positions positions
      :uvs uvs
@@ -219,4 +226,5 @@
         (common/->add-directional-light 1 -1 -2)
         (->add-geometry-mesh geometry-attributes))
     (common/resize-canvas three-data)
-    (common/render-fn three-data)))
+    (common/render-fn three-data)
+    (clj->js three-data)))

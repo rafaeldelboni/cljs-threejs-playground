@@ -86,4 +86,5 @@
         (common/->add-directional-light 5 10 2))
     (load-gltf-model three-data)
     (common/resize-canvas three-data)
-    (common/render-fn three-data)))
+    (common/render-fn three-data)
+    (clj->js three-data)))
