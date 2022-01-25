@@ -1,10 +1,11 @@
 (ns load-gltf
   (:require [applied-science.js-interop :as j]
+            [common :as common]
             ["three" :as three]
             ["three/examples/jsm/controls/OrbitControls" :as orbit-controls]
             ["three/examples/jsm/loaders/GLTFLoader" :as gltf-loader]))
 
-(defn init-three []
+(defn init-three-state []
   (let [{:keys [fov aspect near far]} {:fov 45 :aspect 2 :near 0.1 :far 100}
         canvas (-> js/document (.querySelector "#three-canvas"))
         renderer (three/WebGLRenderer. (clj->js {:canvas canvas}))
@@ -19,31 +20,6 @@
      :camera camera
      :controls controls
      :scene scene}))
-
-(defn resize-canvas [{:keys [camera renderer]}]
-  (let [canvas (. renderer -domElement)
-        client-width (. canvas -clientWidth)
-        client-height (. canvas -clientHeight)
-        camera-projection (/ client-width client-height)]
-    (.setSize renderer client-width client-height false)
-    (doto ^three/PerspectiveCamera camera
-      (j/assoc! :aspect camera-projection)
-      .updateProjectionMatrix)))
-
-(defn resize-canvas-when-needed [{:keys [renderer] :as three-data}]
-  (let [canvas (. renderer -domElement)
-        client-width (. canvas -clientWidth)
-        client-height (. canvas -clientHeight)
-        width (. canvas -width)
-        height (. canvas -height)
-        need-resize (or (not= client-width width) (not= client-height height))]
-    (when need-resize
-      (resize-canvas three-data))))
-
-(defn render-fn [{:keys [camera renderer scene] :as three-data}]
-  (.requestAnimationFrame js/window #(render-fn three-data))
-  (resize-canvas-when-needed three-data)
-  (.render renderer scene camera))
 
 (defn ->add-plane-mesh [scene]
   (let [plane-size 40
@@ -68,14 +44,6 @@
         intensity 1
         light (three/HemisphereLight. sky-color ground-color intensity)]
     (.add scene light)))
-
-(defn ->add-directional-light [scene]
-  (let [color 0xFFFFFF
-        intensity 1
-        light (doto (three/DirectionalLight. color intensity)
-                (j/apply-in [:position :set] #js[5 10 2]))]
-    (.add scene light)
-    (.add scene (j/get light :target))))
 
 (defn frame-area [size-to-fit-on-screen box-size box-center camera]
   (let [half-size-to-fit-on-screen (* size-to-fit-on-screen 0.5)
@@ -111,11 +79,11 @@
                .update)))))
 
 (defn init []
-  (let [{:keys [scene] :as three-data} (init-three)]
+  (let [{:keys [scene] :as three-data} (init-three-state)]
     (-> scene
         ->add-plane-mesh
         ->add-hemisphere-light
-        ->add-directional-light)
+        (common/->add-directional-light 5 10 2))
     (load-gltf-model three-data)
-    (resize-canvas three-data)
-    (render-fn three-data)))
+    (common/resize-canvas three-data)
+    (common/render-fn three-data)))

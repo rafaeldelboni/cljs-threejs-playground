@@ -5,8 +5,12 @@ Playing with threejs and cljs [online demo](https://rafael.delboni.cc/cljs-three
 ## Current Studies
 
 ### Loading a .GLTF File
-- https://threejs.org/manual/#en/load-gltf
-- https://threejs.org/manual/examples/resources/editor.html?url=/manual/examples/load-gltf.html
+- [tutorial](https://threejs.org/manual/#en/load-gltf)
+- [source](https://threejs.org/manual/examples/resources/editor.html?url=/manual/examples/load-gltf.html)
+
+### Voxel Geometry
+- [tutorial](https://threejs.org/manual/#en/voxel-geometry)
+- [source](https://threejs.org/manual/examples/resources/editor.html?url=/manual/examples/voxel-geometry-culled-faces-with-textures.html)
 
 ## Prerequisites
 Things you need installed to use this repository
