@@ -11,5 +11,4 @@
   (handle-click-by-id "li-load-gltf" load-gltf/init)
   (handle-click-by-id "li-voxel-geometry" voxel-geometry/init)
   ; default scene
-  ;(load-gltf/init)
-  (voxel-geometry/init))
+  (load-gltf/init))
